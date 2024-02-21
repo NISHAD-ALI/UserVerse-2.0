@@ -21,7 +21,8 @@ const UserProfile = () => {
 }
 
 const [userData,setUserData] = useState(initialState)
-
+      console.log(userData);
+      
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
@@ -44,7 +45,7 @@ const [userData,setUserData] = useState(initialState)
               is_Admin: res.userData.is_Admin,
             })
           );
-            navigate('/home')
+            navigate('/')
     }).catch((error)=>{
         console.log(error.message);
     })

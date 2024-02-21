@@ -12,13 +12,13 @@ const login = async (req,res)=>{
             const token = jwt.sign({userId:userData._id},process.env.JWT_SECRET,{expiresIn:'30d'})
             res.json({userData,token,status:true})
            }else{
-            res.json({status:false,error:"Not a admin"})
+            res.json({status:false,error:"Not an admin"})
            }
         }else{
             res.json({status:false,error:"Incorrect password"})
         }
      }else{
-        res.json({status:false,error:"Eamil not found"})
+        res.json({status:false,error:"Email not found"})
      }
       
     } catch (error) {
@@ -42,7 +42,9 @@ const users = async (req,res)=>{
 
 const deleteUser = async (req,res)=>{
    try {
+    console.log(req.body.userId);
     const deletedUser = await User.deleteOne({_id:req.body.userId})
+    console.log(deletedUser);
     if(deletedUser){
         res.json({status:true})
     }else{

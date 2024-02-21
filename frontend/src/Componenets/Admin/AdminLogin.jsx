@@ -1,15 +1,41 @@
 import React, { useState } from 'react';
+import {useNavigate} from 'react-router-dom'
+import {useDispatch} from 'react-redux'
+import { adminLogin } from '../../Api/adminApi'
 
 const AdminLogin = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [error,setError] = useState('')
+  const emailPattern =  /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+  const passwordRegex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*()_+])[0-9a-zA-Z!@#$%^&*()_+]{8,}$/;
+  const navigate = useNavigate()
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    // Add your login logic here
-    console.log('Email:', email);
-    console.log('Password:', password);
-  };
+  const handleSubmit = async(e) => {
+    e.preventDefault()
+    try {
+ 
+     if(!emailPattern.test(email)){
+     return  setError("Invalid email format")
+     }else if(!passwordRegex.test(password)){
+       return setError("Password must contain Password must be 8 characters long and include at least one uppercase letter, one lowercase letter, one special character, and one number.4 character")
+     }
+     const loginResponse = await adminLogin({
+       email,password
+     })
+ 
+     if(loginResponse.status){
+       localStorage.setItem('adminToken',loginResponse.token)
+       navigate('/admin/dashboard')
+     }else{
+       setError(loginResponse.error)
+     }
+ 
+    } catch (error) {
+     console.log(error.message);
+    }
+ 
+   }
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-900 text-white py-12 px-4 sm:px-6 lg:px-8">
@@ -34,7 +60,7 @@ const AdminLogin = () => {
                 required
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm bg-gray-800 text-white"
+                className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm bg-gray-800 text-white"
                 placeholder="Email address"
               />
             </div>
@@ -50,7 +76,7 @@ const AdminLogin = () => {
                 required
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm bg-gray-800 text-white"
+                className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 rounded-b-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm bg-gray-800 text-white"
                 placeholder="Password"
               />
             </div>
@@ -63,6 +89,9 @@ const AdminLogin = () => {
             >
               Sign in
             </button>
+            <div className='pl-44 pt-10'>
+            {error && <span style={{ color: "red" }}>{error}</span>}
+            </div>
           </div>
         </form>
       </div>

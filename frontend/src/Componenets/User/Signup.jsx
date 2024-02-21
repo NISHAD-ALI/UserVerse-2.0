@@ -36,7 +36,8 @@ const Signup = () => {
             const signUpResposnse = await userSignUp({
                 name: formData.name,
                 email: formData.email,
-                password: formData.password
+                password: formData.password,
+                phone: formData.phone,
             });
 
             if (signUpResposnse.status) {
@@ -46,7 +47,7 @@ const Signup = () => {
                     name: signUpResposnse.userData.name,
                     email: signUpResposnse.userData.email,
                     is_Admin: signUpResposnse.userData.is_Admin,
-                    phone: "",
+                    phone: signUpResposnse.userData.phone,
                     image: ""
                 }));
                 navigate('/login');
@@ -81,21 +82,14 @@ const Signup = () => {
                     required
                 />
                 <input
-                    type="tel"
+                    type="text"
                     name="phone"
                     value={formData.phone}
                     onChange={handleChange}
                     placeholder="Phone"
                     className="w-full border-gray-300 rounded-md shadow-sm p-2"
                 />
-                <input
-                    type="text"
-                    name="image"
-                    value={formData.image}
-                    onChange={handleChange}
-                    placeholder="Profile Image URL"
-                    className="w-full border-gray-300 rounded-md shadow-sm p-2"
-                />
+                
                 <input
                     type="password"
                     name="password"

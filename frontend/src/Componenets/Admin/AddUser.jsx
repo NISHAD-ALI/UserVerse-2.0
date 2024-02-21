@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { addUserApi } from '../../Api/adminApi'
-import './AddUser.css'
 const Adduser = () => {
     const [err, setErr] = useState('')
     const [formData, setFormData] = useState({

@@ -37,7 +37,7 @@ const Login = () => {
                     image: loginResponse.userData.image,
                     phone: loginResponse.userData.phone,
                 }))
-                navigate('/home')
+                navigate('/')
             } else {
                 setError(loginResponse.error)
             }
@@ -123,6 +123,7 @@ const Login = () => {
                 </form>
 
 
+            <Link to={'/admin/login'} className='p-40'>I'm An Admin</Link>
             </div>
         </div>
     );

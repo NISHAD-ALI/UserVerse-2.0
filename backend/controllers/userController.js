@@ -14,7 +14,7 @@ const signup = async (req,res)=>{
     try {
            console.log(req.body.email);
         const checkExist =await User.findOne({email:req.body.email})
-        console.log(checkExist);
+        console.log(req.body.phone);
         if(checkExist){
             console.log("1");
             res.json({status:false,error:'Email already exists'})
@@ -24,6 +24,7 @@ const signup = async (req,res)=>{
                 name:req.body.name,
                 email:req.body.email,
                 password:req.body.password,
+                phone:req.body.phone,
                 is_Admin:false
                })
         
@@ -47,9 +48,9 @@ const login = async (req,res)=>{
      if(userData){
         if(userData.password === req.body.password){
             const token = jwt.sign({userId:userData._id},process.env.JWT_SECRET,{expiresIn:'30d'})
-            res.json({userData,token,status:true})
+            res.json ({userData,token,status:true})
         }else{
-            res.json({status:false,error:"Incorrect password"})
+            res.json ({status:false,error:"Incorrect password"})
         }
      }else{
         res.json({status:false,error:"Email not found"})
