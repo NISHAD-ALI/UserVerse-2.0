@@ -12,17 +12,17 @@ const UserProfile = () => {
   const navigate = useNavigate();
   const emailPattern = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
-  const initialState ={
-    id:oldData.id || "",
-    name:oldData.name || "",
-    email:oldData.email || "",
-    phone:oldData.phone || "",
-    image:oldData.image || ""
-}
+  const initialState = {
+    id: oldData.id || "",
+    name: oldData.name || "",
+    email: oldData.email || "",
+    phone: oldData.phone || "",
+    image: oldData.image || ""
+  }
 
-const [userData,setUserData] = useState(initialState)
-      console.log(userData);
-      
+  const [userData, setUserData] = useState(initialState)
+  console.log(userData);
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
@@ -30,28 +30,28 @@ const [userData,setUserData] = useState(initialState)
         setError('Invalid email format');
       } else if (userData.name.length < 4 || userData.name === '') {
         setError('Name must contain 4 characters');
-      } else if (userData.phone && userData.phone.length <10) {
+      } else if (userData.phone && userData.phone.length < 10) {
         setError('Phone must contain 10 digits');
-      } 
+      }
       console.log("was");
-      updateProfileApi(userData).then((res)=>{
+      updateProfileApi(userData).then((res) => {
         dispatch(
-            setUserDetails({
-              id: res.userData._id,
-              name: res.userData.name,
-              email: res.userData.email,
-              image: res.userData.image,
-              phone: res.userData.phone,
-              is_Admin: res.userData.is_Admin,
-            })
-          );
-            navigate('/')
-    }).catch((error)=>{
+          setUserDetails({
+            id: res.userData._id,
+            name: res.userData.name,
+            email: res.userData.email,
+            image: res.userData.image,
+            phone: res.userData.phone,
+            is_Admin: res.userData.is_Admin,
+          })
+        );
+        navigate('/')
+      }).catch((error) => {
         console.log(error.message);
-    })
-  } catch (error) {
-    console.log(error.message);
-}
+      })
+    } catch (error) {
+      console.log(error.message);
+    }
   };
 
 
@@ -72,20 +72,26 @@ const [userData,setUserData] = useState(initialState)
                   <div className="mt-2">
                     <div className="mb-4">
                       <label htmlFor="name" className="block text-sm font-medium text-gray-700">Name</label>
-                      <input type="text" id="name" name="name" onChange={(e)=>setUserData({...userData,name:e.target.value})} value={userData.name} className="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" />
+                      <input type="text" id="name" name="name" onChange={(e) => setUserData({ ...userData, name: e.target.value })} value={userData.name} className="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" />
                     </div>
-                    <img src={userData.image ? `../backend/frontend/public/uploads/${userData.image}` : "https://th.bing.com/th/id/OIP.puMo9ITfruXP8iQx9cYcqwHaGJ?pid=ImgDet&rs=1"} alt="User" className="rounded-circle p-1 bg-primary" width="150" height="150" />
+                    <img
+                      src={userData.image ? `/uploads/${userData.image}` : "https://th.bing.com/th/id/OIP.puMo9ITfruXP8iQx9cYcqwHaGJ?pid=ImgDet&rs=1"}
+                      alt="User"
+                      className="rounded-circle p-1 bg-primary"
+                      width="150"
+                      height="150"
+                    />
                     <div className="mb-4">
                       <label htmlFor="email" className="block text-sm font-medium text-gray-700">Email</label>
-                      <input type="email" id="email" name="email" onChange={(e)=>setUserData({...userData,email:e.target.value})} value={userData.email} className="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" />
+                      <input type="email" id="email" name="email" onChange={(e) => setUserData({ ...userData, email: e.target.value })} value={userData.email} className="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" />
                     </div>
                     <div className="mb-4">
                       <label htmlFor="phone" className="block text-sm font-medium text-gray-700">Phone</label>
-                      <input type="text" id="phone" name="phone" onChange={(e)=>setUserData({...userData,phone:e.target.value})} value={userData.phone} className="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" />
+                      <input type="text" id="phone" name="phone" onChange={(e) => setUserData({ ...userData, phone: e.target.value })} value={userData.phone} className="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" />
                     </div>
                     <div>
                       <label htmlFor="image" className="block text-sm font-medium text-gray-700">Upload Image</label>
-                      <input type="file" id="image" name="image" accept="image/*" onChange={(e)=>setUserData({...userData,image:e.target.files[0]})} className="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" />
+                      <input type="file" id="image" name="image" accept="image/*" onChange={(e) => setUserData({ ...userData, image: e.target.files[0] })} className="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" />
                     </div>
                   </div>
                 </div>

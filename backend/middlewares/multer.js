@@ -11,7 +11,7 @@ const FILE_TYPE_MAP = {
 
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
-      const uploadPath = "./frontend/public/uploads";
+      const uploadPath = "C:/confidential/brototype/BROCAMP/WEEK 19/frontend/public/uploads";
   
       if (!fs.existsSync(uploadPath)) {
         fs.mkdirSync(uploadPath, { recursive: true });
